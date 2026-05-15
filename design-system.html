@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Design System - Portal Rush Brasil</title>
+    <link href="assets/74e1d06a1ee0d2ff_css2.css" rel="stylesheet"/>
+    <link href="assets/c4bdf2a6a654e899_icon.css" rel="stylesheet"/>
+    <link href="assets/18fe6b1e2532736e_styles.css" rel="stylesheet"/>
+    <link href="assets/4384ab416983179d_green-logo.png" rel="shortcut icon" type="image/x-icon"/>
+    <style>
+        /* Design System Documentation Styles */
+        :root {
+            --ds-bg: #05080f;
+            --ds-sidebar: #0a0e1a;
+            --ds-accent: #1db954;
+            --ds-border: #1a2332;
+        }
+
+        .ds-nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            border-bottom: 1px solid var(--ds-border);
+            padding: 1rem 0;
+        }
+
+        .ds-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ds-nav a {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .ds-nav a:hover {
+            color: var(--ds-accent);
+        }
+
+        .ds-section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--ds-border);
+        }
+
+        .ds-section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--ds-accent);
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .ds-spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .ds-spec-table tr {
+            border-bottom: 1px solid var(--ds-border);
+        }
+
+        .ds-spec-table td {
+            padding: 2rem 0;
+            vertical-align: middle;
+        }
+
+        .ds-spec-label {
+            width: 200px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .ds-spec-meta {
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-family: monospace;
+        }
+
+        .ds-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .ds-color-swatch {
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        .ds-color-preview {
+            height: 120px;
+            width: 100%;
+        }
+
+        .ds-color-info {
+            padding: 1rem;
+        }
+
+        .ds-color-name {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .ds-color-value {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .ds-component-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .ds-component-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .ds-component-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ds-component-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .ds-motion-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .ds-motion-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .ds-motion-card:hover {
+            border-color: var(--ds-accent);
+        }
+
+        .ds-motion-demo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--ds-accent);
+        }
+
+        /* Override some original styles for the documentation */
+        .hero { min-height: auto; padding: 160px 0 100px; }
+        
+        /* Typography Helpers */
+        .ds-h1 { font-family: var(--font-display); font-size: clamp(2rem, 8vw, 4rem); line-height: 1.1; letter-spacing: 2px; text-transform: uppercase; }
+        .ds-h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: 2px; text-transform: uppercase; }
+        .ds-h3 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: 1px; }
+        .ds-h4 { font-family: var(--font-display); font-size: 1.75rem; letter-spacing: 1px; }
+        .ds-p-large { font-size: 1.125rem; line-height: 1.8; }
+        .ds-p { font-size: 1rem; line-height: 1.7; }
+        
+        .ds-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="ds-nav">
+        <ul>
+            <li><a href="#hero">Hero</a></li>
+            <li><a href="#typography">Typography</a></li>
+            <li><a href="#colors">Colors</a></li>
+            <li><a href="#components">Components</a></li>
+            <li><a href="#layout">Layout</a></li>
+            <li><a href="#motion">Motion</a></li>
+        </ul>
+    </nav>
+
+    <!-- SECTION 0: HERO (EXACT CLONE) -->
+    <section class="hero" id="hero">
+        <div class="hero-background" style="opacity: 1;"></div>
+        <div class="hero-background-image"></div>
+        <div class="container">
+            <div class="hero-content" style="transform: translateY(0px);">
+                <div class="hero-badge">
+                    <span class="material-icons">star</span>
+                    <span>Design System v2</span>
+                </div>
+                <h1 class="hero-title">
+                    O Sistema de Design do <span class="red-text">Portal Rush</span><br/><span class="highlight">Brasil.</span>
+                </h1>
+                <p class="hero-subtitle" style="opacity: 1; transform: translateY(0px); transition: opacity 1s, transform 1s;">
+                    Documentação visual, componentes e padrões de interface <br/>para a experiência digital definitiva do fã.
+                </p>
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-placeholder">
+                        <img alt="" class="desktop-image" src="assets/f06fd7f3256e7185_hero-image.webp" srcset=""/>
+                        <img alt="" class="mobile-image" src="assets/3781321dfd781fab_hero-image-mobile.webp" srcset=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: TYPOGRAPHY -->
+    <section class="ds-section" id="typography">
+        <div class="ds-container">
+            <h2 class="ds-section-title">01 Typography</h2>
+            <table class="ds-spec-table">
+                <tr>
+                    <td class="ds-spec-label">Heading 1 (Display)</td>
+                    <td><h1 class="hero-title">A Playlist do <span class="red-text">Rush</span></h1></td>
+                    <td class="ds-spec-meta">clamp(2rem, 8vw, 4rem) / 1.1</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Heading 2 (Display)</td>
+                    <td><div class="section-header"><h2>Sobre Felipe Andreoli</h2></div></td>
+                    <td class="ds-spec-meta">clamp(1.75rem, 5vw, 2.5rem)</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Heading 3 (Display)</td>
+                    <td><h3 class="song-title">Subdivisions</h3></td>
+                    <td class="ds-spec-meta">clamp(1.5rem, 4vw, 2rem)</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Heading 4 (Display)</td>
+                    <td><h3 style="font-family: var(--font-display); font-size: 1.75rem; letter-spacing: 1px;">Ouça a Playlist Completa</h3></td>
+                    <td class="ds-spec-meta">1.75rem</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Paragraph L (Drop Cap)</td>
+                    <td><p class="about-text first-paragraph">Influenciado por baixistas consagrados como Cliff Burton, Billy Sheehan, Jaco Pastorius e Arthur Maia.</p></td>
+                    <td class="ds-spec-meta">1.125rem / 1.8 (Drop: 3.5rem)</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Paragraph M</td>
+                    <td><p class="about-text">Baixista de renome internacional, com trabalhos que ecoam na internacionalmente reconhecida banda Angra.</p></td>
+                    <td class="ds-spec-meta">1.125rem / 1.8</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Regular S</td>
+                    <td><p style="font-size: 0.875rem; color: var(--text-muted);">© 2025 Portal Rush Brasil. Todos os direitos reservados.</p></td>
+                    <td class="ds-spec-meta">0.875rem</td>
+                </tr>
+                <tr>
+                    <td class="ds-spec-label">Bold Variant</td>
+                    <td><p class="about-text">O baixista do Angra se considera <b>“meio nerd”</b>, e revelou ser um grande obsessivo.</p></td>
+                    <td class="ds-spec-meta">font-weight: 700</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 2: COLORS & SURFACES -->
+    <section class="ds-section" id="colors">
+        <div class="ds-container">
+            <h2 class="ds-section-title">02 Colors & Surfaces</h2>
+            <div class="ds-color-grid">
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--primary-green);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Primary Green</span>
+                        <span class="ds-color-value">#1db954</span>
+                    </div>
+                </div>
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--primary-red);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Primary Red</span>
+                        <span class="ds-color-value">#e02020</span>
+                    </div>
+                </div>
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--bg-dark);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Background Dark</span>
+                        <span class="ds-color-value">#0a0e1a</span>
+                    </div>
+                </div>
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--bg-card);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Card Background</span>
+                        <span class="ds-color-value">#1a2332</span>
+                    </div>
+                </div>
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--primary-blue);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Primary Blue</span>
+                        <span class="ds-color-value">#1a2b4a</span>
+                    </div>
+                </div>
+                <div class="ds-color-swatch">
+                    <div class="ds-color-preview" style="background: var(--border-color);"></div>
+                    <div class="ds-color-info">
+                        <span class="ds-color-name">Border Color</span>
+                        <span class="ds-color-value">#2d3e5f</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h3 class="ds-h4" style="margin-bottom: 1.5rem;">Surface Patterns</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div style="padding: 2rem; background: var(--bg-card); border-radius: 20px; border: 2px solid var(--border-color);">
+                        <p class="ds-component-label">Card Surface</p>
+                        <p style="color: var(--text-secondary);">Background Card with Border</p>
+                    </div>
+                    <div style="padding: 2rem; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); border-radius: 20px; border-left: 5px solid var(--primary-green);">
+                        <p class="ds-component-label">Accent Surface</p>
+                        <p style="color: var(--text-primary);">Gradient with Border Accent</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: UI COMPONENTS -->
+    <section class="ds-section" id="components">
+        <div class="ds-container">
+            <h2 class="ds-section-title">03 UI Components</h2>
+            <div class="ds-component-grid">
+                <div class="ds-component-item">
+                    <h3 class="ds-h4">Action Buttons</h3>
+                    <div class="ds-component-row">
+                        <div class="ds-component-item">
+                            <span class="ds-component-label">Primary Button</span>
+                            <button class="rush-cards-button">
+                                <span class="material-icons">collections</span>
+                                Acessar Rush Cards
+                            </button>
+                        </div>
+                        <div class="ds-component-item">
+                            <span class="ds-component-label">Link Button</span>
+                            <a class="song-link" href="#">
+                                <span class="material-icons">open_in_new</span>
+                                Ver no Portal
+                            </a>
+                        </div>
+                        <div class="ds-component-item">
+                            <span class="ds-component-label">Read More</span>
+                            <button class="read-more-btn" style="display: inline-block;">Leia mais</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-component-item">
+                    <h3 class="ds-h4">Content Cards</h3>
+                    <div class="ds-component-row">
+                        <div style="width: 100%; max-width: 400px;">
+                            <span class="ds-component-label">Song Card</span>
+                            <article class="song-card visible" style="margin-top: 1rem; opacity: 1; transform: none;">
+                                <div class="song-number">01</div>
+                                <div class="song-content">
+                                    <div class="song-header">
+                                        <div class="album-cover-placeholder">
+                                            <img alt="" src="assets/14f8da9ee688d23d_signals.webp"/>
+                                        </div>
+                                        <div class="song-info">
+                                            <h3 class="song-title">Subdivisions</h3>
+                                            <p class="song-album">Signals (1982)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <span class="ds-component-label">Spotify Card</span>
+                            <div class="spotify-card visible" style="margin-top: 1rem; opacity: 1; transform: none;">
+                                <div class="spotify-header">
+                                    <img alt="" class="spotify-logo" src="assets/086cccbda00af6d3_spotify.svg"/>
+                                    <h3>Ouça a Playlist</h3>
+                                </div>
+                                <p class="spotify-description">Mergulhe nas músicas escolhidas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: LAYOUT & SPACING -->
+    <section class="ds-section" id="layout">
+        <div class="ds-container">
+            <h2 class="ds-section-title">04 Layout & Spacing</h2>
+            <div style="display: flex; flex-direction: column; gap: 3rem;">
+                <div>
+                    <h3 class="ds-h4" style="margin-bottom: 1.5rem;">Container & Grid</h3>
+                    <div style="background: rgba(29, 185, 84, 0.1); border: 1px dashed var(--primary-green); padding: 2rem; text-align: center;">
+                        <div class="container" style="background: rgba(29, 185, 84, 0.2); padding: 2rem; border: 1px solid var(--primary-green);">
+                            Main Container (1200px)
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="ds-h4" style="margin-bottom: 1.5rem;">Spacing Scale</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div style="width: var(--spacing-xs); height: var(--spacing-xs); background: var(--primary-green);"></div>
+                            <span class="ds-spec-meta">XS (0.5rem)</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div style="width: var(--spacing-sm); height: var(--spacing-sm); background: var(--primary-green);"></div>
+                            <span class="ds-spec-meta">SM (1rem)</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div style="width: var(--spacing-md); height: var(--spacing-md); background: var(--primary-green);"></div>
+                            <span class="ds-spec-meta">MD (1.5rem)</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div style="width: var(--spacing-lg); height: var(--spacing-lg); background: var(--primary-green);"></div>
+                            <span class="ds-spec-meta">LG (2rem)</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div style="width: var(--spacing-xl); height: var(--spacing-xl); background: var(--primary-green);"></div>
+                            <span class="ds-spec-meta">XL (3rem)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: MOTION & INTERACTION -->
+    <section class="ds-section" id="motion">
+        <div class="ds-container">
+            <h2 class="ds-section-title">05 Motion & Interaction</h2>
+            <div class="ds-motion-gallery">
+                <div class="ds-motion-card" onclick="this.querySelector('.ds-motion-demo').style.animation='none'; setTimeout(()=>this.querySelector('.ds-motion-demo').style.animation='fadeInUp 1s ease', 10)">
+                    <div class="ds-motion-demo" style="animation: fadeInUp 1s ease;">Fade In Up</div>
+                    <span class="ds-spec-meta">fadeInUp 1s ease</span>
+                </div>
+                <div class="ds-motion-card" onclick="this.querySelector('.ds-motion-demo').style.animation='none'; setTimeout(()=>this.querySelector('.ds-motion-demo').style.animation='bounceIn 1s ease', 10)">
+                    <div class="ds-motion-demo" style="animation: bounceIn 1s ease;">Bounce In</div>
+                    <span class="ds-spec-meta">bounceIn 1s ease</span>
+                </div>
+                <div class="ds-motion-card" onclick="this.querySelector('.ds-motion-demo').style.animation='none'; setTimeout(()=>this.querySelector('.ds-motion-demo').style.animation='pulseGlow 2s infinite', 10)">
+                    <div class="ds-motion-demo" style="animation: pulseGlow 2s ease-in-out infinite;">Pulse Glow</div>
+                    <span class="ds-spec-meta">pulseGlow 4s infinite</span>
+                </div>
+                <div class="ds-motion-card">
+                    <div class="ds-motion-demo ripple-target" style="position: relative; overflow: hidden; padding: 1rem; border: 1px solid var(--ds-accent);">Ripple Click</div>
+                    <span class="ds-spec-meta">rippleEffect 0.6s</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: ICONS -->
+    <section class="ds-section" id="icons">
+        <div class="ds-container">
+            <h2 class="ds-section-title">06 Icons</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 2rem; text-align: center;">
+                <div>
+                    <span class="material-icons" style="font-size: 2.5rem; color: var(--primary-green);">star</span>
+                    <p class="ds-spec-meta">star</p>
+                </div>
+                <div>
+                    <span class="material-icons" style="font-size: 2.5rem; color: var(--primary-green);">keyboard_arrow_down</span>
+                    <p class="ds-spec-meta">arrow_down</p>
+                </div>
+                <div>
+                    <span class="material-icons" style="font-size: 2.5rem; color: var(--primary-green);">open_in_new</span>
+                    <p class="ds-spec-meta">open_in_new</p>
+                </div>
+                <div>
+                    <span class="material-icons" style="font-size: 2.5rem; color: var(--primary-green);">collections</span>
+                    <p class="ds-spec-meta">collections</p>
+                </div>
+                <div>
+                    <span class="bass-clef-icon">𝄢</span>
+                    <p class="ds-spec-meta">bass-clef</p>
+                </div>
+                <div>
+                    <img class="instagram-icon" src="assets/a0566ac5505e5f7a_IG.svg" style="margin: 0 auto 0.5rem; filter: brightness(0) invert(1);"/>
+                    <p class="ds-spec-meta">instagram</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 Portal Rush Brasil - Design System Documentation</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/50da78c2bd98d4ab_script.js"></script>
+    <script>
+        // Simple Ripple Effect Trigger for Demo
+        document.querySelector('.ripple-target').addEventListener('click', function(e) {
+            let ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            let x = e.clientX - e.target.offsetLeft;
+            let y = e.clientY - e.target.offsetTop;
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            setTimeout(() => { ripple.remove(); }, 600);
+        });
+    </script>
+</body>
+</html>

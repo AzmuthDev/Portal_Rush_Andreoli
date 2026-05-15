@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Rush Brasil — Felipe Andreoli & O Som do Esporte</title>
+    
+    <!-- Fonts from Design System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="assets/74e1d06a1ee0d2ff_css2.css" rel="stylesheet"/>
+    <link href="assets/c4bdf2a6a654e899_icon.css" rel="stylesheet"/>
+    
+    <style>
+        :root {
+            --primary-green: #1db954;
+            --secondary-green: #055320;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c1d9;
+            --text-muted: #778da9;
+            --bg-dark: #0a0e1a;
+            --bg-card: #1a2332;
+            --border-color: #2d3e5f;
+            --font-display: 'Bebas Neue', cursive;
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor {
+            position: fixed; width: 12px; height: 12px;
+            background: var(--text-primary); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width .2s, height .2s, background .2s;
+            mix-blend-mode: difference;
+        }
+        .cursor.expand { width: 40px; height: 40px; background: rgba(29, 185, 84, 0.4); }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: all .3s;
+        }
+        nav.scrolled {
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 14px 60px;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.2);
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-shape {
+            width: 36px; height: 36px; background: var(--primary-green);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 70% 50%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 30% 50%, 0% 30%);
+        }
+        .logo-text { font-family: var(--font-display); font-size: 28px; letter-spacing: .12em; color: var(--text-primary); }
+        .nav-links { display: flex; gap: 36px; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-family: var(--font-body);
+            font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+            transition: color .2s; position: relative;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta {
+            background: var(--primary-green); color: var(--text-primary);
+            padding: 10px 24px; font-family: var(--font-body);
+            font-weight: 700; font-size: 13px; letter-spacing: .15em;
+            text-transform: uppercase; text-decoration: none; border-radius: 2px;
+        }
+
+        /* HERO - SINGLE BACKGROUND */
+        #hero {
+            position: relative; height: 100vh; min-height: 800px;
+            background: 
+                linear-gradient(to top, rgba(10, 14, 26, 0.95) 0%, rgba(10, 14, 26, 0.4) 50%, rgba(10, 14, 26, 0.8) 100%),
+                url('imgi_18_hero-grid-desktop.webp') center/cover no-repeat;
+            display: flex; align-items: center; justify-content: flex-start;
+            overflow: hidden;
+        }
+        .hero-content {
+            position: relative; z-index: 10;
+            padding: 0 60px;
+            max-width: 1200px;
+        }
+        .hero-label {
+            display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 700;
+            letter-spacing: .4em; color: var(--primary-green); text-transform: uppercase;
+            margin-bottom: 20px; background: rgba(0,0,0,0.6); padding: 6px 16px;
+            opacity: 0; animation: fadeUp .8s .2s forwards;
+        }
+        .hero-h1 {
+            font-family: var(--font-display); font-size: clamp(40px, 6vw, 90px); line-height: 0.9;
+            letter-spacing: -0.02em; margin-bottom: 30px; text-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            opacity: 0; animation: fadeUp .8s .5s forwards;
+        }
+        .hero-sub {
+            font-size: clamp(16px, 2vw, 22px); color: var(--text-secondary); max-width: 800px; margin-bottom: 40px;
+            font-weight: 300; line-height: 1.5; opacity: 0; animation: fadeUp .8s .8s forwards;
+        }
+
+        /* SECTION 1 - FICHA TÉCNICA */
+        #profile { padding: 140px 0; background: var(--bg-dark); }
+        .profile-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 100px; align-items: center; }
+        .stats-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); padding: 50px 40px;
+            position: relative; box-shadow: 20px 20px 0 var(--primary-green);
+        }
+        .stats-card::before {
+            content: 'FICHA TÉCNICA'; position: absolute; top: -18px; left: 30px;
+            background: var(--primary-green); color: white; padding: 6px 16px;
+            font-family: var(--font-display); font-size: 14px;
+        }
+        .stat-row { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .stat-label { font-family: var(--font-display); color: var(--text-muted); font-size: 18px; letter-spacing: 0.05em; }
+        .stat-value { font-family: var(--font-body); font-weight: 700; color: var(--primary-green); }
+
+        .section-h2 { font-family: var(--font-display); font-size: clamp(40px, 5vw, 70px); margin-bottom: 30px; line-height: 1; }
+        .accent-text { color: var(--primary-green); }
+        .body-text { font-size: 18px; line-height: 1.8; color: var(--text-secondary); }
+
+        /* SECTION 2 - EXPAND CARDS */
+        #sports { padding: 140px 0; background: #0c111d; overflow: hidden; }
+        .expand-container {
+            display: flex; gap: 15px; margin-top: 60px; height: 600px; width: 100%;
+        }
+        .sport-expand-card {
+            position: relative; flex: 1; border-radius: 30px; overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer; border: 1px solid var(--border-color);
+        }
+        .sport-expand-card.active { flex: 4; border-color: var(--primary-green); box-shadow: 0 0 40px rgba(29, 185, 84, 0.2); }
+        
+        .card-bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            transition: transform 0.6s; z-index: 1;
+        }
+        .sport-expand-card:hover .card-bg { transform: scale(1.05); }
+        .card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10, 14, 26, 0.9) 0%, rgba(10, 14, 26, 0.2) 50%, transparent 100%);
+            z-index: 2;
+        }
+        .card-content {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px;
+            z-index: 3; color: white; transform: translateY(20px); opacity: 0;
+            transition: all 0.5s 0.2s; pointer-events: none;
+        }
+        .sport-expand-card.active .card-content { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        
+        .card-header {
+            position: absolute; top: 40px; left: 40px; z-index: 4;
+            writing-mode: vertical-lr; transform: rotate(180deg);
+            font-family: var(--font-display); font-size: 24px; letter-spacing: 0.1em;
+            color: var(--text-muted); transition: opacity 0.3s;
+        }
+        .sport-expand-card.active .card-header { opacity: 0; }
+        
+        .sport-icon { font-size: 40px; margin-bottom: 20px; }
+        .sport-title { font-family: var(--font-display); font-size: 32px; margin-bottom: 15px; }
+        .sport-desc { color: var(--text-secondary); line-height: 1.6; font-size: 15px; max-width: 500px; }
+
+        /* SECTION 3 - 3D VINYL GALLERY */
+        #stats { position: relative; padding: 140px 0; background: #000; overflow: hidden; }
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1; opacity: 0.5;
+        }
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, #050505, transparent, #050505);
+            z-index: 2;
+        }
+        #stats .container { position: relative; z-index: 3; max-width: 100%; padding: 0; }
+        
+        .gallery-wrapper {
+            position: relative; perspective: 3000px; height: 700px; /* Increased height */
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 20px; padding: 0 20vw;
+            transform-style: preserve-3d;
+            overflow: visible;
+        }
+        .vinyl-card {
+            position: relative; width: 280px; height: 280px; flex-shrink: 0;
+            margin-left: -160px; transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.5s;
+            transform-style: preserve-3d;
+            transform: rotateY(-45deg) translate3d(0,0,0); cursor: pointer;
+            box-shadow: 15px 0 25px rgba(0,0,0,0.5); border-radius: 4px;
+            display: flex; flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.1);
+            will-change: transform;
+            background: #222;
+        }
+        .vinyl-card:first-child { margin-left: 0; }
+        
+        /* JS DRIVEN STATES */
+        .vinyl-card.faded { opacity: 0.3; transform: rotateY(-45deg) translate3d(0,0,-150px); }
+        
+        .vinyl-card.hovered { 
+            opacity: 1 !important; 
+            transform: rotateY(0deg) translate3d(0, -60px, 300px) scale(1.2) !important; 
+            z-index: 500 !important;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+        }
+
+        /* ALBUM DESIGNS */
+        .v-rush { background: linear-gradient(135deg, #e6192e, #8b0000); }
+        .v-fly { background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); }
+        .v-2112 { background: #000; border: 2px solid #e6192e; }
+        .v-kings { background: linear-gradient(135deg, #d4af37, #8b7500); }
+        .v-hemi { background: linear-gradient(135deg, #ffc0cb, #c08081); }
+        .v-waves { background: #eee; }
+        .v-waves * { color: #222 !important; }
+        .v-pics { background: #000; border-left: 10px solid #e6192e; }
+        .v-sigs { background: #fff; }
+        .v-sigs * { color: #000 !important; }
+        .v-grace { background: linear-gradient(135deg, #2f4f4f, #008080); }
+        .v-power { background: linear-gradient(135deg, #ff00ff, #00ffff); }
+        .v-fire { background: #e6192e; }
+
+        .vinyl-content {
+            padding: 20px; height: 100%; display: flex; flex-direction: column;
+            justify-content: space-between; position: relative; z-index: 2;
+            background: inherit; border-radius: inherit;
+        }
+        .vinyl-label { font-family: var(--font-display); font-size: 8px; letter-spacing: 0.3em; opacity: 0.6; }
+        .vinyl-title { font-family: var(--font-display); font-size: 18px; line-height: 1.1; margin: 8px 0; text-transform: uppercase; }
+        .vinyl-text { font-size: 11px; line-height: 1.5; opacity: 0.8; font-weight: 400; }
+        
+        .vinyl-disc {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 260px; height: 260px; background: #111; border-radius: 50%;
+            z-index: -1; /* Start behind the cover */
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), right 0.8s, left 0.8s;
+            background: repeating-radial-gradient(circle, #111, #111 2px, #1a1a1a 4px);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+            pointer-events: none;
+            right: 5px; /* Default */
+        }
+        .vinyl-card.hovered .vinyl-disc { z-index: 1; }
+        
+        .gallery-header { text-align: center; margin-bottom: 0; }
+        .gallery-header h2 { font-size: 64px; }
+
+        /* TICKER */
+        .hero-ticker {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 44px;
+            background: rgba(29, 185, 84, 0.1); border-top: 1px solid rgba(29, 185, 84, 0.2);
+            overflow: hidden; display: flex; align-items: center; z-index: 20;
+        }
+        .ticker-track { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+        .ticker-item {
+            font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .25em;
+            color: rgba(255, 255, 255, 0.5); text-transform: uppercase; padding: 0 40px;
+        }
+        @keyframes ticker { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+        /* UTILS */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 60px; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px) } to { opacity: 1; transform: translateY(0) } }
+        
+        .section-label {
+            font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: .4em;
+            color: var(--primary-green); text-transform: uppercase; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .section-label::before { content: ''; width: 40px; height: 1px; background: var(--primary-green); }
+
+        footer { padding: 120px 0; background: #050505; text-align: center; border-top: 1px solid var(--border-color); }
+        .footer-h { font-size: 28px; font-weight: 300; color: var(--text-secondary); margin-bottom: 50px; max-width: 800px; margin-inline: auto; }
+        
+        .btn-main {
+            display: inline-block; padding: 20px 50px; background: var(--primary-green); color: white;
+            font-family: var(--font-body); font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.15em; text-decoration: none; transition: all 0.3s;
+        }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(29, 185, 84, 0.4); }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor"></div>
+
+    <nav id="navbar">
+        <a href="#" class="nav-logo">
+            <div class="logo-shape"></div>
+            <span class="logo-text">PORTAL RUSH</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#profile">Andreoli</a></li>
+            <li><a href="#sports">Rush & Esportes</a></li>
+            <li><a href="#stats">Estatísticas</a></li>
+        </ul>
+        <a href="#hero" class="nav-cta">Entrar em Campo</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-label">ESPECIAL: RUSH & ESPORTES</div>
+            <h1 class="hero-h1">
+                O SOM DO ESPORTE:<br>
+                <span class="accent-text">A BATIDA PERFEITA</span><br>
+                DE ANDREOLI E RUSH
+            </h1>
+            <p class="hero-sub">Das bancadas do jornalismo esportivo aos solos de baixo. Descubra como a paixão pelo power trio canadense molda o ritmo de um dos maiores comunicadores do Brasil.</p>
+            <a href="#profile" class="btn-main">Entrar em Campo com o Rush →</a>
+        </div>
+
+        <div class="hero-ticker">
+            <div class="ticker-track">
+                <span class="ticker-item">GEDDY LEE & BASEBALL</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">NEIL PEART & CYCLING</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">ALEX LIFESON & GOLF</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">FELIPE ANDREOLI: BASSIST</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">RHYTHM OF THE GAME</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">PRECISION & POWER</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">GEDDY LEE & BASEBALL</span><span class="ticker-dot">●</span>
+                <span class="ticker-item">NEIL PEART & CYCLING</span><span class="ticker-dot">●</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1 - PROFILE -->
+    <section id="profile">
+        <div class="container">
+            <div class="profile-grid">
+                <div class="reveal">
+                    <div class="stats-card">
+                        <div class="stat-row"><span class="stat-label">NOME</span> <span class="stat-value">FELIPE ANDREOLI</span></div>
+                        <div class="stat-row"><span class="stat-label">POSIÇÃO</span> <span class="stat-value">BAIXISTA / JORNALISTA</span></div>
+                        <div class="stat-row"><span class="stat-label">TIME</span> <span class="stat-value">PORTAL RUSH BRASIL</span></div>
+                        <div class="stat-row"><span class="stat-label">EQUIPAMENTO</span> <span class="stat-value">FENDER JAZZ BASS</span></div>
+                        <div class="stat-row"><span class="stat-label">ÍDOLO</span> <span class="stat-value">GEDDY LEE</span></div>
+                        <div class="stat-row"><span class="stat-label">ESTATÍSTICA</span> <span class="stat-value">100% FANÁTICO</span></div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="section-label">ESCALAÇÃO TITULAR</div>
+                    <h2 class="section-h2">O Fã <span class="accent-text">Felipe Andreoli</span></h2>
+                    <p class="body-text" style="margin-bottom: 24px;">Muito antes de cobrir Copas do Mundo e Olimpíadas, Felipe Andreoli já tinha um ídolo intocável: Geddy Lee. O jornalista, figura carimbada na TV brasileira, nunca escondeu que o Rush é a trilha sonora da sua vida.</p>
+                    <p class="body-text">Baixista nas horas vagas, Andreoli encontra nos arranjos complexos e na execução impecável da banda a mesma precisão exigida no esporte de alto rendimento. Para ele, tocar uma linha de baixo do Rush é como narrar a final de um campeonato: exige fôlego, técnica e muita emoção.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 - RUSH & ESPORTES -->
+    <section id="sports">
+        <div class="container">
+            <div class="reveal" style="text-align:center">
+                <div class="section-label" style="justify-content:center">A DISCIPLINA ALÉM DO PALCO</div>
+                <h2 class="section-h2">O Rush e os Esportes</h2>
+            </div>
+            
+            <div class="expand-container reveal">
+                <!-- GEDDY -->
+                <div class="sport-expand-card active" onmouseenter="activateCard(this)">
+                    <div class="card-header">GEDDY LEE / BASEBALL</div>
+                    <div class="card-bg" style="background-image: url('geddy.png');"></div>
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="sport-icon">⚾</div>
+                        <h3 class="sport-title">Geddy Lee: Estrategista do Diamante</h3>
+                        <p class="sport-desc">Se Andreoli respira futebol, Geddy Lee respira beisebol. Fanático assumido, possui uma coleção imensa de memorabilia e acompanha os jogos anotando estatísticas manualmente. A paciência do beisebol reflete suas linhas de baixo calculadas.</p>
+                    </div>
+                </div>
+                <!-- NEIL -->
+                <div class="sport-expand-card" onmouseenter="activateCard(this)">
+                    <div class="card-header">NEIL PEART / RESISTÊNCIA</div>
+                    <div class="card-bg" style="background-image: url('neil.png');"></div>
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="sport-icon">🚴</div>
+                        <h3 class="sport-title">Neil Peart: Atleta da Resistência</h3>
+                        <p class="sport-desc">O lendário "Professor" era ávido praticante de ciclismo e esqui. Durante as turnês, viajava de bicicleta cobrindo milhares de quilômetros. Esse fôlego era o segredo para aguentar shows de 3 horas tocando no limite.</p>
+                    </div>
+                </div>
+                <!-- ALEX -->
+                <div class="sport-expand-card" onmouseenter="activateCard(this)">
+                    <div class="card-header">ALEX LIFESON / GOLFE</div>
+                    <div class="card-bg" style="background-image: url('alex.png');"></div>
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="sport-icon">⛳</div>
+                        <h3 class="sport-title">Alex Lifeson: O Swing Perfeito</h3>
+                        <p class="sport-desc">Fora do palco, Alex busca a precisão silenciosa dos campos de golfe. O esporte exige foco extremo e controle de força – vital para criar os riffs complexos e texturas sonoras que definem a guitarra do Rush.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 - 3D VINYL GALLERY -->
+    <section id="stats">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="assets/bg_video.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        
+        <div class="container">
+            <div class="reveal gallery-header">
+                <div class="section-label" style="justify-content:center">DISCOGRAFIA DE CURIOSIDADES</div>
+                <h2 class="section-h2">The <span class="accent-text">Rush</span> Archive</h2>
+            </div>
+
+            <div class="gallery-wrapper reveal" id="vinyl-gallery">
+                <!-- RUSH (1974) -->
+                <div class="vinyl-card v-rush" style="z-index: 11;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#01 / RUSH (1974)</span>
+                        <h3 class="vinyl-title">O CONSELHO DE ROD CAREW</h3>
+                        <p class="vinyl-text">Em 1992, Geddy e Alex treinaram com os Angels. Rod Carew deu dicas para Alex e disparou: "Não largue seu emprego principal na música".</p>
+                    </div>
+                </div>
+                <!-- FLY BY NIGHT -->
+                <div class="vinyl-card v-fly" style="z-index: 10;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#02 / FLY BY NIGHT</span>
+                        <h3 class="vinyl-title">CADEIRA DE JUIZ NO PALCO</h3>
+                        <p class="vinyl-text">Em 1977 no Texas, a equipe colocou Alex sentado em uma cadeira de juiz de tênis no palco. Ele tocou perfeitamente lá de cima.</p>
+                    </div>
+                </div>
+                <!-- 2112 -->
+                <div class="vinyl-card v-2112" style="z-index: 9;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#03 / 2112</span>
+                        <h3 class="vinyl-title">YYZ E O CORO DE ESTÁDIO</h3>
+                        <p class="vinyl-text">Fãs latinos criaram coros de estádio para "YYZ". Em Porto Alegre, Geddy subiu ao palco vestindo a camisa do Grêmio.</p>
+                    </div>
+                </div>
+                <!-- FAREWELL TO KINGS -->
+                <div class="vinyl-card v-kings" style="z-index: 8;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#04 / A FAREWELL TO KINGS</span>
+                        <h3 class="vinyl-title">A TACADA DE NEIL PEART</h3>
+                        <p class="vinyl-text">Neil deu uma tacada "impossível" que fez a bola voar 30m e cair direto num balde de gelo com cervejas.</p>
+                    </div>
+                </div>
+                <!-- HEMISPHERES -->
+                <div class="vinyl-card v-hemi" style="z-index: 7;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#05 / HEMISPHERES</span>
+                        <h3 class="vinyl-title">PARTIDAS DE MADRUGADA</h3>
+                        <p class="vinyl-text">Nos anos 80, o Rush alugava rinques de hóquei de madrugada para jogar após os shows com a banda Max Webster.</p>
+                    </div>
+                </div>
+                <!-- PERMANENT WAVES -->
+                <div class="vinyl-card v-waves" style="z-index: 6;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#06 / PERMANENT WAVES</span>
+                        <h3 class="vinyl-title">RANDY JOHNSON NO PALCO</h3>
+                        <p class="vinyl-text">O astro do baseball (2,08m) ajudou a equipe no palco em Boston ligando as secadoras de roupa cenográficas.</p>
+                    </div>
+                </div>
+                <!-- MOVING PICTURES -->
+                <div class="vinyl-card v-pics" style="z-index: 5;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#07 / MOVING PICTURES</span>
+                        <h3 class="vinyl-title">GEDDY LEE: TETRACAMPEÃO</h3>
+                        <p class="vinyl-text">Geddy brinca ser mais respeitado por vencer sua liga de Fantasy Baseball 4 vezes seguidas do que pelo Hall da Fama.</p>
+                    </div>
+                </div>
+                <!-- SIGNALS -->
+                <div class="vinyl-card v-sigs" style="z-index: 4;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#08 / SIGNALS</span>
+                        <h3 class="vinyl-title">TÊNIS COMO SALVAÇÃO</h3>
+                        <p class="vinyl-text">Para evitar o tédio da estrada, Geddy e Alex jogaram tênis em praticamente todos os dias de folga por 25 anos.</p>
+                    </div>
+                </div>
+                <!-- GRACE UNDER PRESSURE -->
+                <div class="vinyl-card v-grace" style="z-index: 3;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#09 / GRACE UNDER PRESSURE</span>
+                        <h3 class="vinyl-title">BATERIA EXCLUSIVA DA NHL</h3>
+                        <p class="vinyl-text">Para o tema de hóquei da TSN, Neil Peart ganhou uma bateria DW com os 30 logos da NHL pintados à mão.</p>
+                    </div>
+                </div>
+                <!-- POWER WINDOWS -->
+                <div class="vinyl-card v-power" style="z-index: 2;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#10 / POWER WINDOWS</span>
+                        <h3 class="vinyl-title">SOFTBALL À MEIA-NOITE</h3>
+                        <p class="vinyl-text">Em 1984, a banda alugou um campo de softball no Arizona para uma partida noturna regada a churrasco e integração.</p>
+                    </div>
+                </div>
+                <!-- HOLD YOUR FIRE -->
+                <div class="vinyl-card v-fire" style="z-index: 1;">
+                    <div class="vinyl-disc"></div>
+                    <div class="vinyl-content">
+                        <span class="vinyl-label">#11 / HOLD YOUR FIRE</span>
+                        <h3 class="vinyl-title">HYPE ATLÉTICO</h3>
+                        <p class="vinyl-text">Tom Sawyer consolidou o Rush como a trilha sonora definitiva da alta performance e entradas de lutadores.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="footer-h reveal">A música e o esporte compartilham a mesma alma: a busca pela perfeição, a emoção do momento e a dedicação de uma vida inteira.</p>
+            <div class="reveal">
+                <a href="#" class="btn-main">Explorar Mais no Portal Rush</a>
+            </div>
+            <div style="margin-top: 80px; color: var(--text-muted); font-size: 13px; letter-spacing: 0.1em;">
+                © 2025 PORTAL RUSH BRASIL · DESIGN BY ANTIGRAVITY
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+
+        // REVEAL ANIMATIONS
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // CUSTOM CURSOR
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .sport-expand-card, .vinyl-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+        });
+
+        // SPORTS CARDS
+        function activateCard(el) {
+            document.querySelectorAll('.sport-expand-card').forEach(card => card.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // NAVBAR
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if(nav) nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // VINYL GALLERY INTERACTION
+        function initVinylGallery() {
+            const gallery = document.getElementById('vinyl-gallery');
+            if (!gallery) return;
+            const cards = gallery.querySelectorAll('.vinyl-card');
+            
+            cards.forEach((card, index) => {
+                card.style.zIndex = cards.length - index;
+                const disc = card.querySelector('.vinyl-disc');
+
+                card.addEventListener('mouseenter', () => {
+                    let mainTranslateX = 0;
+                    if (index === 0) mainTranslateX = 160;
+                    if (index === cards.length - 1) mainTranslateX = -160;
+
+                    cards.forEach((c, i) => {
+                        c.classList.add('faded');
+                        const distance = i - index;
+                        if (distance < 0) {
+                            c.style.transform = `rotateY(-45deg) translate3d(${-130 + mainTranslateX}px, 0, -120px)`;
+                        } else if (distance > 0) {
+                            c.style.transform = `rotateY(-45deg) translate3d(${130 + mainTranslateX}px, 0, -120px)`;
+                        }
+                    });
+                    
+                    card.classList.remove('faded');
+                    card.classList.add('hovered');
+                    card.style.transform = `rotateY(0deg) translate3d(${mainTranslateX}px, -60px, 380px) scale(1.25)`;
+
+                    // Dynamic Disc Direction: Cards 0-5 slide Right, 6-10 slide Left
+                    if (index < cards.length / 2) {
+                        disc.style.right = '-150px';
+                        disc.style.left = 'auto';
+                    } else {
+                        disc.style.left = '-150px';
+                        disc.style.right = 'auto';
+                    }
+                    disc.style.transform = 'translateY(-50%) rotate(360deg)';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    cards.forEach((c) => {
+                        c.classList.remove('faded', 'hovered');
+                        c.style.transform = '';
+                    });
+                    disc.style.right = '5px';
+                    disc.style.left = 'auto';
+                    disc.style.transform = 'translateY(-50%) rotate(0deg)';
+                });
+            });
+        }
+
+        initVinylGallery();
+    </script>
+</body>
+</html>
