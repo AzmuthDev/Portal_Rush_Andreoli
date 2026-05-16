@@ -7,7 +7,7 @@
     
     <!-- Fonts from Design System -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="assets/74e1d06a1ee0d2ff_css2.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Permanent+Marker&family=Titan+One&family=Roboto+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="assets/c4bdf2a6a654e899_icon.css" rel="stylesheet"/>
     
     <style>
@@ -108,23 +108,121 @@
             font-weight: 300; line-height: 1.5; opacity: 0; animation: fadeUp .8s .8s forwards;
         }
 
-        /* SECTION 1 - FICHA TÉCNICA */
-        #profile { padding: 140px 0; background: var(--bg-dark); }
+        /* SECTION 1 - FICHA TÉCNICA (RETRO TICKET) */
+        #profile { 
+            padding: 140px 0; 
+            background: linear-gradient(rgba(10, 14, 26, 0.85), rgba(10, 14, 26, 0.85)), url('assets/brazil_bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
         .profile-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 100px; align-items: center; }
+        
         .stats-card {
-            background: var(--bg-card); border: 1px solid var(--border-color); padding: 50px 40px;
-            position: relative; box-shadow: 20px 20px 0 var(--primary-green);
+            background: #fdf6e3; 
+            border: 4px solid #055320;
+            padding: 0;
+            position: relative;
+            color: #055320;
+            box-shadow: 20px 20px 0 var(--primary-green);
+            transform: rotate(-1deg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .stats-card::before {
-            content: 'FICHA TÉCNICA'; position: absolute; top: -18px; left: 30px;
-            background: var(--primary-green); color: white; padding: 6px 16px;
-            font-family: var(--font-display); font-size: 14px;
-        }
-        .stat-row { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .stat-label { font-family: var(--font-display); color: var(--text-muted); font-size: 18px; letter-spacing: 0.05em; }
-        .stat-value { font-family: var(--font-body); font-weight: 700; color: var(--primary-green); }
 
-        .section-h2 { font-family: var(--font-display); font-size: clamp(40px, 5vw, 70px); margin-bottom: 30px; line-height: 1; }
+        .ticket-top {
+            background: #055320;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ticket-id { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 0.2em; }
+        .ticket-title { font-family: 'Archivo Black', sans-serif; font-size: 14px; text-transform: uppercase; }
+
+        .ticket-body {
+            padding: 40px;
+            position: relative;
+            background-image: radial-gradient(#dcd4b8 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .ticket-perforation {
+            height: 2px;
+            border-top: 2px dashed #055320;
+            margin: 0 20px;
+            position: relative;
+        }
+        .ticket-perforation::before, .ticket-perforation::after {
+            content: '';
+            position: absolute;
+            top: -11px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+            border: 2px solid #055320;
+        }
+        .ticket-perforation::before { left: -32px; }
+        .ticket-perforation::after { right: -32px; }
+
+        .stat-row { 
+            display: flex; 
+            flex-direction: column;
+            padding: 15px 0; 
+            border-bottom: 1px solid rgba(5, 83, 32, 0.1); 
+        }
+        .stat-row:last-child { border-bottom: none; }
+        
+        .stat-label { 
+            font-family: 'Permanent Marker', cursive; 
+            color: #d4af37; 
+            font-size: 14px; 
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+        .stat-value { 
+            font-family: 'Bebas Neue', cursive; 
+            font-size: 32px; 
+            color: #055320;
+            line-height: 1;
+        }
+
+        .ticket-footer {
+            padding: 20px 40px;
+            background: #fdf6e3;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid rgba(5, 83, 32, 0.1);
+        }
+        .barcode {
+            width: 150px;
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #055320, #055320 2px, transparent 2px, transparent 4px);
+            opacity: 0.8;
+        }
+        .ticket-stamp {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 12px;
+            border: 2px solid #e6192e;
+            color: #e6192e;
+            padding: 4px 10px;
+            transform: rotate(-15deg);
+            border-radius: 4px;
+        }
+
+        .section-h2 { 
+            font-family: 'Titan One', cursive; 
+            font-size: clamp(40px, 5vw, 80px); 
+            margin-bottom: 30px; 
+            line-height: 0.9; 
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
         .accent-text { color: var(--primary-green); }
         .body-text { font-size: 18px; line-height: 1.8; color: var(--text-secondary); }
 
@@ -286,6 +384,215 @@
             letter-spacing: 0.15em; text-decoration: none; transition: all 0.3s;
         }
         .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(29, 185, 84, 0.4); }
+        /* SECTION 4 - FAVORITES ROULETTE */
+        #favorites-roulette {
+            padding: 140px 0;
+            background: radial-gradient(circle at center, #111a2d 0%, #0a0e1a 100%);
+            overflow: hidden;
+            position: relative;
+        }
+        .roulette-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 800px;
+            position: relative;
+        }
+        .roulette-wrapper {
+            position: relative;
+            width: 700px;
+            height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* The Wheel */
+        .roulette-wheel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(29, 185, 84, 0.1);
+            transition: transform 1.5s cubic-bezier(0.2, 0, 0.2, 1);
+            transform: rotate(0deg);
+        }
+
+        /* Vinyl in Center */
+        .vinyl-center {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vinyl-record-static {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            border-radius: 50%;
+            background: repeating-radial-gradient(circle, #000, #000 1px, #1a1a1a 3px);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slowRotate 20s linear infinite;
+        }
+        .vinyl-record-static::after {
+            content: '';
+            width: 100px;
+            height: 100px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            border: 5px solid #000;
+        }
+        
+        .current-song-display {
+            position: absolute;
+            z-index: 11;
+            text-align: center;
+            pointer-events: none;
+            width: 280px;
+        }
+        .current-song-display h3 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .current-song-display p {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--primary-green);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Orbital Items */
+        .roulette-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            cursor: pointer;
+            transition: all 0.4s;
+            z-index: 5;
+        }
+        .item-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+        .roulette-item:hover .item-circle,
+        .roulette-item.active .item-circle {
+            border-color: var(--primary-green);
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.4);
+        }
+        
+        .item-label {
+            position: absolute;
+            left: 110%;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: all 0.4s;
+            pointer-events: none;
+        }
+        .roulette-item.active .item-label {
+            opacity: 1;
+            color: white;
+            transform: translateY(-50%) translateX(10px);
+        }
+
+        .roulette-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.4s;
+        }
+        .roulette-item:hover img,
+        .roulette-item.active img {
+            opacity: 1;
+        }
+
+        /* Decorations */
+        .roulette-guide {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border: 1px dashed rgba(29, 185, 84, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes slowRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl-record-static.playing {
+            animation: fastRotate 2s linear infinite;
+        }
+        @keyframes fastRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .audio-toggle-container {
+            position: absolute;
+            bottom: -80px;
+            z-index: 15;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .audio-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
+            transition: all 0.3s;
+        }
+        .audio-btn:hover { transform: scale(1.1); background: white; }
+        .audio-btn i { color: black; font-size: 24px; }
+        .audio-hint { font-family: var(--font-body); font-size: 10px; color: var(--primary-green); letter-spacing: 0.2em; text-transform: uppercase; }
+
+        /* MOBILE ROULETTE */
+        @media (max-width: 768px) {
+            .roulette-wrapper { width: 350px; height: 350px; }
+            .vinyl-center { width: 180px; height: 180px; }
+            .item-circle { width: 60px; height: 60px; }
+            .current-song-display h3 { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -339,12 +646,22 @@
             <div class="profile-grid">
                 <div class="reveal">
                     <div class="stats-card">
-                        <div class="stat-row"><span class="stat-label">NOME</span> <span class="stat-value">FELIPE ANDREOLI</span></div>
-                        <div class="stat-row"><span class="stat-label">POSIÇÃO</span> <span class="stat-value">BAIXISTA / JORNALISTA</span></div>
-                        <div class="stat-row"><span class="stat-label">TIME</span> <span class="stat-value">PORTAL RUSH BRASIL</span></div>
-                        <div class="stat-row"><span class="stat-label">EQUIPAMENTO</span> <span class="stat-value">FENDER JAZZ BASS</span></div>
-                        <div class="stat-row"><span class="stat-label">ÍDOLO</span> <span class="stat-value">GEDDY LEE</span></div>
-                        <div class="stat-row"><span class="stat-label">ESTATÍSTICA</span> <span class="stat-value">100% FANÁTICO</span></div>
+                        <div class="ticket-top">
+                            <span class="ticket-title">OFFICIAL CREDENTIAL</span>
+                            <span class="ticket-id">RU-2112-2025</span>
+                        </div>
+                        <div class="ticket-body">
+                            <div class="stat-row"><span class="stat-label">NOME</span> <span class="stat-value">FELIPE ANDREOLI</span></div>
+                            <div class="stat-row"><span class="stat-label">POSIÇÃO</span> <span class="stat-value">BAIXISTA / JORNALISTA</span></div>
+                            <div class="stat-row"><span class="stat-label">TIME</span> <span class="stat-value">PORTAL RUSH BRASIL</span></div>
+                            <div class="stat-row"><span class="stat-label">EQUIPAMENTO</span> <span class="stat-value">FENDER JAZZ BASS</span></div>
+                            <div class="stat-row"><span class="stat-label">ÍDOLO</span> <span class="stat-value">GEDDY LEE</span></div>
+                        </div>
+                        <div class="ticket-perforation"></div>
+                        <div class="ticket-footer">
+                            <div class="barcode"></div>
+                            <div class="ticket-stamp">100% FANÁTICO</div>
+                        </div>
                     </div>
                 </div>
                 <div class="reveal">
@@ -520,6 +837,41 @@
         </div>
     </section>
 
+    <!-- SECTION 4 - FAVORITES ROULETTE -->
+    <section id="favorites-roulette">
+        <div class="container">
+            <div class="reveal" style="text-align:center; margin-bottom: 60px;">
+                <div class="section-label" style="justify-content:center">A CURADORIA DO BAIXISTA</div>
+                <h2 class="section-h2">Músicas Favoritas do <span class="accent-text">Felipe Andreoli</span></h2>
+            </div>
+
+            <div class="roulette-container reveal">
+                <div class="roulette-guide"></div>
+                <div class="roulette-wrapper">
+                    <!-- The Spinning Part -->
+                    <div class="roulette-wheel" id="roulette-wheel">
+                        <!-- Items will be injected by JS -->
+                    </div>
+
+                    <!-- The Static Center -->
+                    <div class="vinyl-center">
+                        <div class="vinyl-record-static"></div>
+                        <div class="current-song-display">
+                            <h3 id="active-song-title">Gire a Roleta</h3>
+                            <p id="active-song-album">7 Escolhas de Elite</p>
+                        </div>
+                        <div class="audio-toggle-container">
+                            <button class="audio-btn" id="audio-toggle-btn" onclick="toggleAudio()">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="audio-hint">PLAY / PAUSE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <p class="footer-h reveal">A música e o esporte compartilham a mesma alma: a busca pela perfeição, a emoção do momento e a dedicação de uma vida inteira.</p>
@@ -618,6 +970,114 @@
         }
 
         initVinylGallery();
+
+        // ROULETTE LOGIC
+        const favorites = [
+            { title: "Subdivisions", album: "Signals (1982)", cover: "assets/14f8da9ee688d23d_signals.webp", audio: "assets/audio/subdivisions.mp3" },
+            { title: "Freewill", album: "Permanent Waves (1980)", cover: "assets/eaf11af5fae94b76_permanent-waves.webp", audio: "assets/audio/freewill.m4a" },
+            { title: "Natural Science", album: "Permanent Waves (1980)", cover: "assets/eaf11af5fae94b76_permanent-waves.webp", audio: "assets/audio/natural_science.mp3" },
+            { title: "Jacob's Ladder", album: "Permanent Waves (1980)", cover: "assets/eaf11af5fae94b76_permanent-waves.webp", audio: "assets/audio/jacobs_ladder.mp3" },
+            { title: "Limelight", album: "Moving Pictures (1981)", cover: "assets/2b3520acb9e548ba_moving-pictures.webp", audio: "assets/audio/limelight.m4a" },
+            { title: "Animate", album: "Counterparts (1993)", cover: "assets/12eb4196cbabe61e_counterparts.webp", audio: "assets/audio/animate.m4a" },
+            { title: "Time Stand Still", album: "Hold Your Fire (1987)", cover: "assets/63a5602313acbcdc_hold-your-fire.webp", audio: "assets/audio/time_stand_still.mp3" }
+        ];
+
+        const audioPlayer = new Audio();
+        let isPlaying = false;
+        let currentAudioIndex = -1;
+
+        function toggleAudio() {
+            if (!audioPlayer.src) return;
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                isPlaying = true;
+            } else {
+                audioPlayer.pause();
+                isPlaying = false;
+            }
+            updateAudioUI();
+        }
+
+        function updateAudioUI() {
+            const btn = document.getElementById('audio-toggle-btn');
+            const vinyl = document.querySelector('.vinyl-record-static');
+            if (!btn || !vinyl) return;
+
+            if (isPlaying) {
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                vinyl.classList.add('playing');
+            } else {
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                vinyl.classList.remove('playing');
+            }
+        }
+
+        function initRoulette() {
+            const wheel = document.getElementById('roulette-wheel');
+            if (!wheel) return;
+
+            const radius = window.innerWidth > 768 ? 300 : 150;
+            const total = favorites.length;
+            const angleStep = 360 / total;
+
+            favorites.forEach((song, i) => {
+                const item = document.createElement('div');
+                item.className = 'roulette-item';
+                
+                const angle = i * angleStep;
+                const x = Math.cos(angle * Math.PI / 180) * radius;
+                const y = Math.sin(angle * Math.PI / 180) * radius;
+                
+                item.style.transform = `translate(${x}px, ${y}px)`;
+                
+                item.innerHTML = `
+                    <div class="item-circle">
+                        <img src="${song.cover}" alt="${song.title}">
+                    </div>
+                    <div class="item-label">${song.title}</div>
+                `;
+
+                item.addEventListener('click', () => {
+                    spinTo(i);
+                });
+
+                wheel.appendChild(item);
+            });
+
+            function spinTo(index) {
+                const targetAngle = -(index * angleStep);
+                wheel.style.transform = `rotate(${targetAngle}deg)`;
+                
+                document.querySelectorAll('.roulette-item').forEach((item, i) => {
+                    item.classList.toggle('active', i === index);
+                    const inner = item.querySelector('.item-circle');
+                    const label = item.querySelector('.item-label');
+                    inner.style.transform = `rotate(${-targetAngle}deg)`;
+                    if(label) label.style.transform = `translateY(-50%) rotate(${-targetAngle}deg)`;
+                });
+
+                document.getElementById('active-song-title').textContent = favorites[index].title;
+                document.getElementById('active-song-album').textContent = favorites[index].album;
+
+                // Handle Audio
+                if (currentAudioIndex !== index) {
+                    currentAudioIndex = index;
+                    audioPlayer.src = favorites[index].audio;
+                    audioPlayer.play().then(() => {
+                        isPlaying = true;
+                        updateAudioUI();
+                    }).catch(e => {
+                        console.log("Autoplay blocked, waiting for interaction");
+                        isPlaying = false;
+                        updateAudioUI();
+                    });
+                }
+            }
+            
+            setTimeout(() => spinTo(0), 1000);
+        }
+
+        initRoulette();
     </script>
 </body>
 </html>
