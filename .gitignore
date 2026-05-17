@@ -1,0 +1,21 @@
+# Temporary/scratch files
+scratch/
+execution_report.md
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local servers / IDE
+.vscode/
+.idea/
+.npm/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

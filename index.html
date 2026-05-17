@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Permanent+Marker&family=Titan+One&family=Roboto+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="assets/c4bdf2a6a654e899_icon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
@@ -106,6 +107,133 @@
         .hero-sub {
             font-size: clamp(16px, 2vw, 22px); color: var(--text-secondary); max-width: 800px; margin-bottom: 40px;
             font-weight: 300; line-height: 1.5; opacity: 0; animation: fadeUp .8s .8s forwards;
+        }
+
+        /* HERO VIDEO CARD */
+        .hero-video-link {
+            text-decoration: none;
+            display: block;
+            z-index: 25;
+            position: absolute;
+            right: 0 !important; /* Docks the card flush with the rightmost lateral edge of the site */
+            bottom: 44px !important; /* Touch the ticker top line exactly (44px) with 0px gap/overlap */
+            top: auto !important;
+            transform: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            outline: none !important;
+            
+            /* Symmetrical larger width, scaling naturally without fixed aspect ratio */
+            width: clamp(320px, 24vw, 420px) !important;
+            max-height: calc(100vh - 120px) !important;
+            height: auto !important;
+        }
+        .hero-video-link:focus, .hero-video-link:active,
+        .hero-video-card:focus, .hero-video-card:active,
+        video:focus, video:active {
+            outline: none !important;
+            box-shadow: none; /* Reset link focus ring, card has its own shadows */
+        }
+        .hero-video-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto !important; /* Scale naturally matching video height */
+            opacity: 0;
+            animation: fadeInRight 1s 1s forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .hero-video-card {
+            position: relative;
+            border-radius: 0 !important; /* Perfect flat corners to prevent ANY video cropping */
+            overflow: hidden;
+            border: 2px solid var(--primary-green) !important; /* Full, symmetric border on all 4 sides */
+            background: #000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            transition: all 0.5s ease;
+            width: 100%;
+            height: auto !important; /* Scale naturally matching video height */
+            display: flex;
+            flex-direction: column;
+            outline: none !important;
+        }
+        .hero-video-card:hover {
+            transform: translateY(-8px); /* Lift upward instead of sideways to maintain perfect alignment */
+            border-color: var(--primary-green);
+            box-shadow: 0 30px 80px rgba(29, 185, 84, 0.25);
+        }
+        .hero-video-card video {
+            width: 100%;
+            height: auto !important; /* Scale naturally matching the video's exact native aspect ratio */
+            display: block;
+            object-fit: contain !important; /* Keep the native aspect ratio with zero stretching, flattening, or cropping */
+            outline: none !important;
+        }
+        .video-label-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-green);
+            color: black;
+            padding: 6px 16px;
+            font-family: var(--font-display);
+            font-size: 14px;
+            border-radius: 2px;
+            z-index: 2;
+            letter-spacing: 0.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .video-info {
+            padding: 25px 30px;
+            background: linear-gradient(to top, rgba(10, 14, 26, 1) 0%, rgba(10, 14, 26, 0.7) 60%, transparent 100%);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .video-info h4 {
+            font-family: var(--font-display);
+            font-size: 26px;
+            margin-bottom: 5px;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+        .video-info p {
+            font-size: 13px;
+            color: var(--primary-green);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+ 
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+ 
+        @media (max-width: 1200px) {
+            .hero-video-link {
+                position: relative !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                transform: none !important;
+                margin: 40px auto 44px !important; /* Touch the ticker top line exactly (44px) in relative flow */
+                width: 100% !important;
+                max-width: 320px !important;
+                height: auto !important;
+                display: block;
+            }
+            .hero-video-wrapper {
+                width: 100%;
+                height: auto !important;
+            }
+            .hero-video-card { 
+                border-radius: 0 !important; 
+                border: 2px solid var(--primary-green) !important; 
+                height: auto !important;
+            }
         }
 
         /* SECTION 1 - FICHA TÉCNICA (RETRO TICKET) */
@@ -625,6 +753,21 @@
             <p class="hero-sub">Das bancadas do jornalismo esportivo aos solos de baixo. Descubra como a paixão pelo power trio canadense molda o ritmo de um dos maiores comunicadores do Brasil.</p>
             <a href="#profile" class="btn-main">Entrar em Campo com o Rush →</a>
         </div>
+
+        <a href="https://www.instagram.com/andreolifelipe?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="hero-video-link">
+            <div class="hero-video-wrapper">
+                <div class="hero-video-card">
+                    <div class="video-label-tag">CONVIDADO ESPECIAL</div>
+                    <video autoplay muted playsinline>
+                        <source src="assets/andreoli_video.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-info">
+                        <h4>FELIPE ANDREOLI</h4>
+                        <p>O Som do Esporte</p>
+                    </div>
+                </div>
+            </div>
+        </a>
 
         <div class="hero-ticker">
             <div class="ticker-track">
