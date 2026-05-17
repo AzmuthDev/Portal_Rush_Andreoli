@@ -354,46 +354,395 @@
         .accent-text { color: var(--primary-green); }
         .body-text { font-size: 18px; line-height: 1.8; color: var(--text-secondary); }
 
-        /* SECTION 2 - EXPAND CARDS */
-        #sports { padding: 140px 0; background: #0c111d; overflow: hidden; }
-        .expand-container {
-            display: flex; gap: 15px; margin-top: 60px; height: 600px; width: 100%;
+        /* SECTION 2 - CHARACTER SELECT (GAMIFIED UI) */
+        #sports { 
+            padding: 140px 0; 
+            background: radial-gradient(circle at top, #0f172a 0%, #020617 100%); 
+            overflow: hidden; 
+            position: relative;
         }
-        .sport-expand-card {
-            position: relative; flex: 1; border-radius: 30px; overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            cursor: pointer; border: 1px solid var(--border-color);
-        }
-        .sport-expand-card.active { flex: 4; border-color: var(--primary-green); box-shadow: 0 0 40px rgba(29, 185, 84, 0.2); }
         
-        .card-bg {
-            position: absolute; inset: 0; background-size: cover; background-position: center;
-            transition: transform 0.6s; z-index: 1;
+        /* Grid Lines to simulate game UI */
+        #sports::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(29, 185, 84, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 185, 84, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
         }
-        .sport-expand-card:hover .card-bg { transform: scale(1.05); }
-        .card-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(10, 14, 26, 0.9) 0%, rgba(10, 14, 26, 0.2) 50%, transparent 100%);
+
+        .select-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            height: 600px;
+            width: 100%;
+            position: relative;
             z-index: 2;
         }
-        .card-content {
-            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px;
-            z-index: 3; color: white; transform: translateY(20px); opacity: 0;
-            transition: all 0.5s 0.2s; pointer-events: none;
+
+        /* Character Card */
+        .char-card {
+            position: relative;
+            background: #0b0f19;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            outline: none;
+            height: 100%;
         }
-        .sport-expand-card.active .card-content { transform: translateY(0); opacity: 1; pointer-events: auto; }
-        
-        .card-header {
-            position: absolute; top: 40px; left: 40px; z-index: 4;
-            writing-mode: vertical-lr; transform: rotate(180deg);
-            font-family: var(--font-display); font-size: 24px; letter-spacing: 0.1em;
-            color: var(--text-muted); transition: opacity 0.3s;
+
+        /* Hover state */
+        .char-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: rgba(29, 185, 84, 0.6);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.15);
         }
-        .sport-expand-card.active .card-header { opacity: 0; }
+
+        /* Active / Selected state styling */
+        .char-card.selected {
+            transform: scale(1.05);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 50px rgba(29, 185, 84, 0.35);
+            z-index: 10;
+        }
+
+        /* Demoted cards state when another card is selected */
+        .select-container.has-selection .char-card:not(.selected) {
+            filter: grayscale(80%) brightness(55%);
+            transform: scale(0.95);
+            border-color: rgba(45, 62, 95, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card background layer */
+        .char-card-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at bottom, #1e293b 0%, #0f172a 100%);
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+        .char-card.selected .char-card-bg {
+            background: radial-gradient(circle at bottom, #064e3b 0%, #020617 100%);
+        }
+
+        /* Character image */
+        .char-img-wrapper {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .char-img {
+            height: 90%;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateY(10px);
+        }
+        /* Specific positioning for Card 1 (Baixista seen from below) */
+        .char-card-1 .char-img {
+            transform: scale(1.15) translateY(20px) rotate(-1deg);
+            transform-origin: bottom center;
+        }
+        .char-card-1.selected .char-img {
+            transform: scale(1.2) translateY(5px) rotate(-1deg);
+        }
         
-        .sport-icon { font-size: 40px; margin-bottom: 20px; }
-        .sport-title { font-family: var(--font-display); font-size: 32px; margin-bottom: 15px; }
-        .sport-desc { color: var(--text-secondary); line-height: 1.6; font-size: 15px; max-width: 500px; }
+        .char-card-2 .char-img {
+            transform: scale(1.05) translateY(15px);
+        }
+        .char-card-2.selected .char-img {
+            transform: scale(1.1) translateY(0px);
+        }
+
+        .char-card-3 .char-img {
+            transform: scale(1.05) translateY(15px);
+        }
+        .char-card-3.selected .char-img {
+            transform: scale(1.1) translateY(0px);
+        }
+
+        /* Efeitos Visuais: Aura (Glow) */
+        .char-aura {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.6) 0%, transparent 70%);
+            mix-blend-mode: screen;
+            filter: blur(25px);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .char-card:hover .char-aura {
+            opacity: 0.4;
+        }
+        .char-card.selected .char-aura {
+            opacity: 0.95;
+            animation: pulseAura 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseAura {
+            0% { transform: translateX(-50%) scale(0.9); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 0.95; filter: blur(20px); }
+        }
+
+        /* Efeitos Visuais: Fumaça (Displacement SVG) */
+        .char-smoke-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.15;
+            mix-blend-mode: color-dodge;
+            filter: url(#smoke-filter);
+            background: linear-gradient(to top, rgba(29, 185, 84, 0.6), transparent 70%);
+            transition: opacity 0.5s ease;
+        }
+        .char-card:hover .char-smoke-overlay {
+            opacity: 0.35;
+        }
+        .char-card.selected .char-smoke-overlay {
+            opacity: 0.75;
+        }
+
+        /* Partículas / Faíscas Burst e contínuas */
+        .particle {
+            position: absolute;
+            background: var(--primary-green);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+        }
+        
+        .char-card.selected .particle-emit {
+            animation: floatParticle 4s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100%) scale(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100px) translateX(var(--x-drift, 20px)) scale(1.5); opacity: 0; }
+        }
+
+        /* Card Content Texts */
+        .char-info {
+            position: relative;
+            z-index: 6;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0.6) 60%, transparent 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+        .char-card.selected .char-info {
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.98) 0%, rgba(2, 6, 23, 0.8) 70%, transparent 100%);
+            border-color: rgba(29, 185, 84, 0.3);
+        }
+        .char-class {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--primary-green);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .char-class::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--primary-green);
+        }
+        .char-name {
+            font-family: var(--font-display);
+            font-size: 36px;
+            color: white;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .char-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        /* Reveal description in selected state */
+        .char-card.selected .char-desc {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 10px;
+        }
+
+        /* Lore Items Section (Orbiting / Floating around character) */
+        .lore-container {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .lore-item {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .char-card.selected .lore-item {
+            opacity: 1;
+            transform: translateY(0);
+            animation: floatLore 5s ease-in-out infinite alternate;
+        }
+
+        /* Custom delays for floating animation */
+        .char-card.selected .lore-item:nth-child(1) { animation-delay: 0s; }
+        .char-card.selected .lore-item:nth-child(2) { animation-delay: 1.2s; }
+        .char-card.selected .lore-item:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes floatLore {
+            0% { transform: translateY(0px) rotate(var(--base-rot, 0deg)); }
+            100% { transform: translateY(-15px) rotate(calc(var(--base-rot, 0deg) + 5deg)); }
+        }
+
+        .lore-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(2, 6, 23, 0.85);
+            border: 1px solid var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+        }
+        .lore-label {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: white;
+            text-transform: uppercase;
+            background: var(--primary-green);
+            padding: 2px 8px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        /* Specific Lore positioning */
+        /* Card 1 Lore (Baseball & Cap) */
+        .lore-baseball { top: 15%; left: 10%; --base-rot: -10deg; }
+        .lore-cap { top: 30%; right: 10%; --base-rot: 15deg; }
+
+        /* Card 2 Lore (Golf Club, Ball, Swing Effect) */
+        .lore-club { top: 15%; left: 8%; --base-rot: -15deg; }
+        .lore-golfball { top: 25%; right: 12%; --base-rot: 10deg; }
+        .lore-swing { top: 45%; left: 15%; --base-rot: 5deg; }
+
+        /* Card 3 Lore (Bicycle, Neil's Drumming Cap, Drum Parts) */
+        .lore-bike { top: 15%; left: 10%; --base-rot: -8deg; }
+        .lore-drumcap { top: 25%; right: 10%; --base-rot: 12deg; }
+        .lore-drums { top: 45%; left: 15%; --base-rot: 5deg; }
+        .lore-hockey { top: 38%; right: 8%; --base-rot: -15deg; }
+
+        /* CTA Game Selector Button */
+        .char-cta-container {
+            margin-top: 50px;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+        .btn-game-select {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 22px 60px;
+            background: linear-gradient(135deg, #1db954 0%, #055320 100%);
+            border: 2px solid var(--primary-green);
+            color: white;
+            font-family: var(--font-body);
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+        .btn-game-select:hover {
+            transform: scale(1.05);
+            background: white;
+            color: black;
+            border-color: white;
+            box-shadow: 0 0 45px rgba(255, 255, 255, 0.4);
+        }
+        .btn-game-select i {
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        .btn-game-select:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Mobile layout styling for Character Select */
+        @media (max-width: 1024px) {
+            .select-container {
+                grid-template-columns: 1fr;
+                height: auto;
+                gap: 20px;
+            }
+            .char-card {
+                height: 480px;
+            }
+            .char-img {
+                height: 80%;
+            }
+            .char-card-1.selected .char-img,
+            .char-card-2.selected .char-img,
+            .char-card-3.selected .char-img {
+                transform: scale(1.08) translateY(0);
+            }
+        }
 
         /* SECTION 3 - 3D VINYL GALLERY */
         #stats { position: relative; padding: 140px 0; background: #000; overflow: hidden; }
@@ -817,48 +1166,125 @@
         </div>
     </section>
 
-    <!-- SECTION 2 - RUSH & ESPORTES -->
+    <!-- SECTION 2 - CHARACTER SELECT (GAMIFIED UI) -->
     <section id="sports">
         <div class="container">
             <div class="reveal" style="text-align:center">
-                <div class="section-label" style="justify-content:center">A DISCIPLINA ALÉM DO PALCO</div>
-                <h2 class="section-h2">O Rush e os Esportes</h2>
+                <div class="section-label" style="justify-content:center">TELA DE SELEÇÃO</div>
+                <h2 class="section-h2">Escolha Seu <span class="accent-text">Músico</span></h2>
+                <p class="body-text" style="max-width: 800px; margin: 0 auto 40px;">Explore a sinergia perfeita entre o virtuosismo nos palcos e o foco absoluto nos esportes. Selecione um integrante para revelar sua aura, itens lendários de lore e segredos de alta performance.</p>
             </div>
             
-            <div class="expand-container reveal">
-                <!-- GEDDY -->
-                <div class="sport-expand-card active" onmouseenter="activateCard(this)">
-                    <div class="card-header">GEDDY LEE / BASEBALL</div>
-                    <div class="card-bg" style="background-image: url('geddy.png');"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="sport-icon">⚾</div>
-                        <h3 class="sport-title">Geddy Lee: Estrategista do Diamante</h3>
-                        <p class="sport-desc">Se Andreoli respira futebol, Geddy Lee respira beisebol. Fanático assumido, possui uma coleção imensa de memorabilia e acompanha os jogos anotando estatísticas manualmente. A paciência do beisebol reflete suas linhas de baixo calculadas.</p>
+            <div class="select-container reveal" id="char-select-container">
+                <!-- CARD 1: BAIXISTA -->
+                <div class="char-card char-card-1" onclick="selectCharacter(0, this)">
+                    <div class="char-card-bg"></div>
+                    <div class="char-aura"></div>
+                    <div class="char-smoke-overlay"></div>
+                    
+                    <!-- Lore Items (Orbiting / Floating) -->
+                    <div class="lore-container">
+                        <div class="lore-item lore-baseball">
+                            <div class="lore-icon"><i class="fas fa-baseball-ball"></i></div>
+                            <span class="lore-label">Baseball</span>
+                        </div>
+                        <div class="lore-item lore-cap">
+                            <div class="lore-icon"><i class="fas fa-crown"></i></div>
+                            <span class="lore-label">Boné</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Character Image -->
+                    <div class="char-img-wrapper">
+                        <img src="rush_bassist_andreoli_vibe_1778858702445.png" alt="O Baixista" class="char-img">
+                    </div>
+                    
+                    <div class="char-info">
+                        <div class="char-class">O BAIXISTA</div>
+                        <h3 class="char-name">O Baixista</h3>
+                        <p class="char-desc">Técnica cirúrgica, ritmo inabalável e paixão pelo diamante. Do beisebol estratégico aos grooves mais complexos que guiam o som do Rush com precisão de elite.</p>
                     </div>
                 </div>
-                <!-- NEIL -->
-                <div class="sport-expand-card" onmouseenter="activateCard(this)">
-                    <div class="card-header">NEIL PEART / RESISTÊNCIA</div>
-                    <div class="card-bg" style="background-image: url('neil.png');"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="sport-icon">🚴</div>
-                        <h3 class="sport-title">Neil Peart: Atleta da Resistência</h3>
-                        <p class="sport-desc">O lendário "Professor" era ávido praticante de ciclismo e esqui. Durante as turnês, viajava de bicicleta cobrindo milhares de quilômetros. Esse fôlego era o segredo para aguentar shows de 3 horas tocando no limite.</p>
+
+                <!-- CARD 2: ALEX -->
+                <div class="char-card char-card-2" onclick="selectCharacter(1, this)">
+                    <div class="char-card-bg"></div>
+                    <div class="char-aura"></div>
+                    <div class="char-smoke-overlay"></div>
+                    
+                    <!-- Lore Items (Orbiting / Floating) -->
+                    <div class="lore-container">
+                        <div class="lore-item lore-club">
+                            <div class="lore-icon"><i class="fas fa-flag-checkered"></i></div>
+                            <span class="lore-label">Taco</span>
+                        </div>
+                        <div class="lore-item lore-golfball">
+                            <div class="lore-icon"><i class="fas fa-golf-ball"></i></div>
+                            <span class="lore-label">Golfe</span>
+                        </div>
+                        <div class="lore-item lore-swing">
+                            <div class="lore-icon"><i class="fas fa-wind"></i></div>
+                            <span class="lore-label">Swing</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Character Image -->
+                    <div class="char-img-wrapper">
+                        <img src="alex.png" alt="Alex" class="char-img">
+                    </div>
+                    
+                    <div class="char-info">
+                        <div class="char-class">O GUITARRISTA</div>
+                        <h3 class="char-name">Alex</h3>
+                        <p class="char-desc">Riffs inesquecíveis, texturas etéreas e o swing perfeito. Encontra nos gramados silenciosos do golfe a concentração necessária para criar solos transcendentais.</p>
                     </div>
                 </div>
-                <!-- ALEX -->
-                <div class="sport-expand-card" onmouseenter="activateCard(this)">
-                    <div class="card-header">ALEX LIFESON / GOLFE</div>
-                    <div class="card-bg" style="background-image: url('alex.png');"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-content">
-                        <div class="sport-icon">⛳</div>
-                        <h3 class="sport-title">Alex Lifeson: O Swing Perfeito</h3>
-                        <p class="sport-desc">Fora do palco, Alex busca a precisão silenciosa dos campos de golfe. O esporte exige foco extremo e controle de força – vital para criar os riffs complexos e texturas sonoras que definem a guitarra do Rush.</p>
+
+                <!-- CARD 3: NIL -->
+                <div class="char-card char-card-3" onclick="selectCharacter(2, this)">
+                    <div class="char-card-bg"></div>
+                    <div class="char-aura"></div>
+                    <div class="char-smoke-overlay"></div>
+                    
+                    <!-- Lore Items (Orbiting / Floating) -->
+                    <div class="lore-container">
+                        <div class="lore-item lore-bike">
+                            <div class="lore-icon"><i class="fas fa-bicycle"></i></div>
+                            <span class="lore-label">Bike</span>
+                        </div>
+                        <div class="lore-item lore-drumcap">
+                            <div class="lore-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <span class="lore-label">Boina</span>
+                        </div>
+                        <div class="lore-item lore-drums">
+                            <div class="lore-icon"><i class="fas fa-drum"></i></div>
+                            <span class="lore-label">Bateria</span>
+                        </div>
+                        <div class="lore-item lore-hockey">
+                            <div class="lore-icon"><i class="fas fa-hockey-puck"></i></div>
+                            <span class="lore-label">Hóquei</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Character Image -->
+                    <div class="char-img-wrapper">
+                        <img src="neil.png" alt="Nil" class="char-img">
+                    </div>
+                    
+                    <div class="char-info">
+                        <div class="char-class">O BATERISTA</div>
+                        <h3 class="char-name">Nil</h3>
+                        <p class="char-desc">O lendário Professor do ritmo e resistência física insana. O ciclismo de longa distância e a agressividade do hóquei forjaram o maior baterista de todos os tempos.</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- DYNAMIC GAME CTA -->
+            <div class="char-cta-container reveal">
+                <button class="btn-game-select" id="dynamic-char-cta" onclick="triggerCharacterCta()">
+                    <span>Selecione Seu Músico</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -1221,6 +1647,191 @@
         }
 
         initRoulette();
+
+        // --- CHARACTER SELECT LOGIC ---
+        let activeCharIndex = -1;
+        let particleInterval = null;
+
+        function selectCharacter(index, element) {
+            const container = document.getElementById('char-select-container');
+            const ctaBtn = document.getElementById('dynamic-char-cta');
+            if (!container || !ctaBtn) return;
+
+            // Check if it's already selected
+            if (activeCharIndex === index) {
+                // Deselect
+                element.classList.remove('selected');
+                container.classList.remove('has-selection');
+                activeCharIndex = -1;
+                ctaBtn.innerHTML = '<span>Selecione Seu Músico</span> <i class="fas fa-arrow-right"></i>';
+                ctaBtn.style.opacity = '0.6';
+                ctaBtn.style.pointerEvents = 'none';
+                
+                // Clear continuous particles
+                clearContinuousParticles();
+                return;
+            }
+
+            activeCharIndex = index;
+            container.classList.add('has-selection');
+            
+            // Toggle classes
+            document.querySelectorAll('.char-card').forEach((card, idx) => {
+                card.classList.toggle('selected', idx === index);
+            });
+
+            // Update CTA button text and styling
+            ctaBtn.style.opacity = '1';
+            ctaBtn.style.pointerEvents = 'auto';
+            
+            const btnTexts = [
+                'SINTA O GROOVE DO BAIXISTA →',
+                'SINTA A PRECISÃO DE ALEX →',
+                'SINTA A RESISTÊNCIA DE NIL →'
+            ];
+            ctaBtn.innerHTML = `<span>${btnTexts[index]}</span> <i class="fas fa-arrow-right"></i>`;
+
+            // Sparks Burst Effect on click!
+            spawnBurstParticles(element);
+
+            // Start continuous floating particles
+            startContinuousParticles(element);
+        }
+
+        // Initialize state of CTA button
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctaBtn = document.getElementById('dynamic-char-cta');
+            if (ctaBtn) {
+                ctaBtn.style.opacity = '0.6';
+                ctaBtn.style.pointerEvents = 'none';
+            }
+        });
+
+        // Burst Particles on Click
+        function spawnBurstParticles(cardElement) {
+            const rect = cardElement.getBoundingClientRect();
+            const particlesCount = 20;
+            const container = document.body;
+
+            for (let i = 0; i < particlesCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = `${rect.left + rect.width / 2}px`;
+                p.style.top = `${rect.top + rect.height / 2}px`;
+                p.style.background = '#1db954';
+                p.style.boxShadow = '0 0 10px #1db954';
+                p.style.width = `${Math.random() * 8 + 4}px`;
+                p.style.height = p.style.width;
+                p.style.opacity = '1';
+                p.style.zIndex = '9999';
+
+                // Random trajectory
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 120 + 30;
+                const xDest = Math.cos(angle) * distance;
+                const yDest = Math.sin(angle) * distance;
+
+                container.appendChild(p);
+
+                p.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${xDest}px, ${yDest}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 600 + 400,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)',
+                    fill: 'forwards'
+                });
+
+                setTimeout(() => p.remove(), 1000);
+            }
+        }
+
+        // Continuous floating particles inside the card
+        function startContinuousParticles(cardElement) {
+            clearContinuousParticles();
+            
+            particleInterval = setInterval(() => {
+                const wrapper = cardElement;
+                if (!wrapper) return;
+
+                const p = document.createElement('div');
+                p.className = 'particle particle-emit';
+                
+                const size = Math.random() * 5 + 2;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.bottom = '10%';
+                p.style.left = `${Math.random() * 80 + 10}%`;
+                
+                p.style.background = 'rgba(29, 185, 84, 0.8)';
+                p.style.boxShadow = '0 0 8px rgba(29, 185, 84, 0.8)';
+                p.style.setProperty('--x-drift', `${Math.random() * 40 - 20}px`);
+                
+                wrapper.appendChild(p);
+                
+                setTimeout(() => p.remove(), 4000);
+            }, 200);
+        }
+
+        function clearContinuousParticles() {
+            if (particleInterval) {
+                clearInterval(particleInterval);
+                particleInterval = null;
+            }
+            document.querySelectorAll('.particle-emit').forEach(p => p.remove());
+        }
+
+        // Dynamic CTA Action: Auto scroll and spin roulette
+        function triggerCharacterCta() {
+            if (activeCharIndex === -1) return;
+
+            // Scroll down to roulette section
+            const rouletteSection = document.getElementById('favorites-roulette');
+            if (rouletteSection) {
+                rouletteSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Map index to favorite song index in the roulette
+            // Baixista (index 0) -> "Subdivisions" (index 0)
+            // Alex (index 1) -> "Limelight" (index 4)
+            // Nil (index 2) -> "Natural Science" (index 2)
+            let songIndex = 0;
+            if (activeCharIndex === 0) songIndex = 0;
+            else if (activeCharIndex === 1) songIndex = 4;
+            else if (activeCharIndex === 2) songIndex = 2;
+
+            setTimeout(() => {
+                const items = document.querySelectorAll('.roulette-item');
+                if (items && items[songIndex]) {
+                    items[songIndex].click();
+                }
+            }, 800);
+        }
+
+        // Smoke organic motion animation
+        let baseFreq = 0.015;
+        let smokeTick = 0;
+        function animateSmoke() {
+            smokeTick += 0.005;
+            const turb = document.querySelector('#smoke-filter feTurbulence');
+            if (turb) {
+                turb.setAttribute('baseFrequency', `${0.015 + Math.sin(smokeTick) * 0.004} ${0.08 + Math.cos(smokeTick) * 0.015}`);
+            }
+            requestAnimationFrame(animateSmoke);
+        }
+        
+        // Start smoke animation
+        animateSmoke();
     </script>
+
+    <!-- SVG FILTER FOR SMOKE EFFECT -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="smoke-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.015 0.08" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 </html>
