@@ -1238,7 +1238,6 @@
         <ul class="nav-links">
             <li><a href="#hero">Início</a></li>
             <li><a href="#profile">Andreoli</a></li>
-            <li><a href="#sports">Rush & Esportes</a></li>
             <li><a href="#stats">Estatísticas</a></li>
         </ul>
     </nav>
@@ -1319,133 +1318,7 @@
         </div>
     </section>
 
-    <!-- SECTION 2 - CHARACTER SELECT (GAMIFIED UI) -->
-    <section id="sports">
-        <div class="container">
-            <div class="reveal" style="text-align:center">
-                <div class="section-label" style="justify-content:center">TELA DE SELEÇÃO</div>
-                <h2 class="section-h2">Escolha Seu <span class="accent-text">Músico</span></h2>
-                <p class="body-text" style="max-width: 800px; margin: 0 auto 40px;">Escolha um dos 3 lendários músicos para revelar suas auras dinâmicas, itens místico-esportivos e atributos de alta performance. Os cards recuam enquanto o seu lutador brilha em destaque absoluto!</p>
-            </div>
-            
-            <div class="select-container" id="char-select-container">
-                <!-- CARD 1: BAIXISTA -->
-                <div class="char-card char-card-1 is-hidden" data-char="1" role="button" tabindex="0" aria-pressed="false" aria-label="Selecionar músico 1: O Baixista" onclick="selectCharacter(0, this)" onkeydown="handleCardKey(event, 0, this)">
-                    <div class="card-bg-layer"></div>
-                    <div class="card-smoke-layer"></div>
-                    <div class="card-glow-layer"></div>
-                    <canvas class="card-particles-canvas"></canvas>
-                    
-                    <!-- Orbiting Symbols (Instrument & Sport - Decorative Icons Only) -->
-                    <div class="card-symbols-layer">
-                        <div class="symbol-icon sym-inst"><i class="fas fa-guitar"></i></div>
-                        <div class="symbol-icon sym-sport"><i class="fas fa-baseball-ball"></i></div>
-                    </div>
-                    
-                    <!-- Character Image Placeholder Slot -->
-                    <div class="card-image-layer">
-                        <img src="geddy-placeholder.png" alt="" class="card-char-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="char-placeholder-fallback">
-                            <i class="fas fa-music placeholder-icon"></i>
-                            <span>SLOT BAIXO</span>
-                            <small>Upload do PNG Transparente</small>
-                        </div>
-                    </div>
-                    
-                    <div class="card-info">
-                        <div class="card-class">O BAIXISTA</div>
-                        <div class="char-desc">Técnica cirúrgica, ritmo inabalável e paixão pelo diamante. Do beisebol estratégico aos grooves mais complexos que guiam o som do Rush com precisão de elite.</div>
-                        <div class="card-stats">
-                            <div class="stat-bar"><span class="stat-name">GROOVE</span><div class="bar-track"><div class="bar-fill" data-value="95" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">POWER</span><div class="bar-track"><div class="bar-fill" data-value="88" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">FLOW</span><div class="bar-track"><div class="bar-fill" data-value="92" style="width: 0%;"></div></div></div>
-                        </div>
-                    </div>
-                    <div class="card-select-label">SELECIONAR</div>
-                </div>
 
-                <!-- CARD 2: GUITARRISTA -->
-                <div class="char-card char-card-2 is-hidden" data-char="2" role="button" tabindex="0" aria-pressed="false" aria-label="Selecionar músico 2: O Guitarrista" onclick="selectCharacter(1, this)" onkeydown="handleCardKey(event, 1, this)">
-                    <div class="card-bg-layer"></div>
-                    <div class="card-smoke-layer"></div>
-                    <div class="card-glow-layer"></div>
-                    <canvas class="card-particles-canvas"></canvas>
-                    
-                    <!-- Orbiting Symbols (Instrument & Sport - Decorative Icons Only) -->
-                    <div class="card-symbols-layer">
-                        <div class="symbol-icon sym-inst"><i class="fas fa-guitar" style="transform: rotate(45deg);"></i></div>
-                        <div class="symbol-icon sym-sport"><i class="fas fa-flag"></i></div>
-                    </div>
-                    
-                    <!-- Character Image Placeholder Slot -->
-                    <div class="card-image-layer">
-                        <img src="alex-placeholder.png" alt="" class="card-char-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="char-placeholder-fallback">
-                            <i class="fas fa-guitar placeholder-icon" style="transform: rotate(45deg);"></i>
-                            <span>SLOT GUITARRA</span>
-                            <small>Upload do PNG Transparente</small>
-                        </div>
-                    </div>
-                    
-                    <div class="card-info">
-                        <div class="card-class">O GUITARRISTA</div>
-                        <div class="char-desc">Riffs inesquecíveis, texturas etéreas e o swing perfeito. Encontra nos gramados silenciosos do golfe a concentração necessária para criar solos transcendentais.</div>
-                        <div class="card-stats">
-                            <div class="stat-bar"><span class="stat-name">PRECISION</span><div class="bar-track"><div class="bar-fill" data-value="96" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">STYLE</span><div class="bar-track"><div class="bar-fill" data-value="90" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">EDGE</span><div class="bar-track"><div class="bar-fill" data-value="85" style="width: 0%;"></div></div></div>
-                        </div>
-                    </div>
-                    <div class="card-select-label">SELECIONAR</div>
-                </div>
-
-                <!-- CARD 3: BATERISTA -->
-                <div class="char-card char-card-3 is-hidden" data-char="3" role="button" tabindex="0" aria-pressed="false" aria-label="Selecionar músico 3: O Baterista" onclick="selectCharacter(2, this)" onkeydown="handleCardKey(event, 2, this)">
-                    <div class="card-bg-layer"></div>
-                    <div class="card-smoke-layer"></div>
-                    <div class="card-glow-layer"></div>
-                    <canvas class="card-particles-canvas"></canvas>
-                    
-                    <!-- Orbiting Symbols (Instrument & Sport - Decorative Icons Only) -->
-                    <div class="card-symbols-layer">
-                        <div class="symbol-icon sym-inst"><i class="fas fa-drum"></i></div>
-                        <div class="symbol-icon sym-sport"><i class="fas fa-hockey-puck"></i></div>
-                        <!-- Easter Egg Bike -->
-                        <div class="symbol-icon sym-easteregg"><i class="fas fa-bicycle"></i></div>
-                    </div>
-                    
-                    <!-- Character Image Placeholder Slot -->
-                    <div class="card-image-layer">
-                        <img src="neil-placeholder.png" alt="" class="card-char-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="char-placeholder-fallback">
-                            <i class="fas fa-drum placeholder-icon"></i>
-                            <span>SLOT BATERIA</span>
-                            <small>Upload do PNG Transparente</small>
-                        </div>
-                    </div>
-                    
-                    <div class="card-info">
-                        <div class="card-class">O BATERISTA</div>
-                        <div class="char-desc">O lendário Professor do ritmo e resistência física insana. O ciclismo de longa distância e a agressividade do hóquei forjaram o maior baterista de todos os tempos.</div>
-                        <div class="card-stats">
-                            <div class="stat-bar"><span class="stat-name">ENERGY</span><div class="bar-track"><div class="bar-fill" data-value="99" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">SPEED</span><div class="bar-track"><div class="bar-fill" data-value="98" style="width: 0%;"></div></div></div>
-                            <div class="stat-bar"><span class="stat-name">RAW</span><div class="bar-track"><div class="bar-fill" data-value="95" style="width: 0%;"></div></div></div>
-                        </div>
-                    </div>
-                    <div class="card-select-label">SELECIONAR</div>
-                </div>
-            </div>
-
-            <!-- DYNAMIC GAME CTA -->
-            <div class="char-cta-container reveal">
-                <button class="btn-game-select" id="dynamic-char-cta" onclick="triggerCharacterCta()">
-                    <span>Selecione Seu Músico</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </section>
 
     <!-- SECTION 3 - 3D VINYL GALLERY -->
     <section id="stats">
