@@ -1078,6 +1078,71 @@
             border: 8px solid #000;
         }
 
+        .tonearm {
+            position: absolute;
+            top: 100px; 
+            right: 80px;
+            width: 380px;
+            height: 50px;
+            transform-origin: 355px 25px;
+            transform: rotate(15deg);
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: 10;
+        }
+        .tonearm.playing {
+            transform: rotate(-20deg);
+        }
+        .tonearm-pivot {
+            position: absolute;
+            top: 0; right: 0;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #eee, #999, #222);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.9), inset 0 2px 5px rgba(255,255,255,0.8);
+            z-index: 3;
+            border: 3px solid #111;
+        }
+        .tonearm-counterweight {
+            position: absolute;
+            top: 12px; right: -30px;
+            width: 45px; height: 26px;
+            background: linear-gradient(to bottom, #aaa, #555, #111);
+            border-radius: 4px;
+            z-index: 2;
+            box-shadow: 0 20px 20px rgba(0,0,0,0.7);
+            border: 1px solid #222;
+        }
+        .tonearm-rod {
+            position: absolute;
+            top: 20px; right: 25px;
+            width: 330px; height: 10px;
+            background: linear-gradient(to bottom, #fff, #aaa, #333);
+            border-radius: 5px 0 0 5px;
+            z-index: 2;
+            box-shadow: 0 25px 20px rgba(0,0,0,0.7);
+        }
+        .tonearm-head {
+            position: absolute;
+            top: 5px; right: 350px;
+            width: 30px; height: 50px;
+            background: linear-gradient(to right, #333, #555, #222);
+            border-radius: 6px;
+            transform: rotate(-25deg);
+            transform-origin: right top;
+            box-shadow: 0 25px 20px rgba(0,0,0,0.7);
+            z-index: 1;
+            border: 1px solid #111;
+        }
+        .tonearm-head::after {
+            content: '';
+            position: absolute;
+            bottom: -6px; left: 12px;
+            width: 6px; height: 12px;
+            background: #ff2a2a;
+            border-radius: 0 0 2px 2px;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.5);
+        }
+
         .roulette-guide {
             position: absolute;
             width: 1250px;
@@ -1447,6 +1512,14 @@
             <!-- Left side: The huge vinyl record -->
             <div class="roulette-wrapper">
                 <div class="giant-vinyl-record" id="giant-vinyl"></div>
+                
+                <div class="tonearm" id="tonearm">
+                    <div class="tonearm-rod"></div>
+                    <div class="tonearm-head"></div>
+                    <div class="tonearm-counterweight"></div>
+                    <div class="tonearm-pivot"></div>
+                </div>
+
                 <div style="position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; transform: translate(-50%, -50%); z-index: 3; border-radius: 50%; overflow: hidden;">
                     <div id="vinyl-cover-spin" style="width: 100%; height: 100%; background-size: cover; background-position: center; animation: slowRotate 10s linear infinite; animation-play-state: paused;"></div>
                 </div>
@@ -1608,16 +1681,19 @@
             const btn = document.getElementById('audio-toggle-btn');
             const vinylSpin = document.getElementById('vinyl-cover-spin');
             const giantVinyl = document.getElementById('giant-vinyl');
+            const tonearm = document.getElementById('tonearm');
             if (!btn) return;
 
             if (isPlaying) {
                 btn.innerHTML = '<i class="fas fa-pause"></i>';
                 if(vinylSpin) vinylSpin.style.animationPlayState = 'running';
                 if(giantVinyl) giantVinyl.style.animationPlayState = 'running';
+                if(tonearm) tonearm.classList.add('playing');
             } else {
                 btn.innerHTML = '<i class="fas fa-play"></i>';
                 if(vinylSpin) vinylSpin.style.animationPlayState = 'paused';
                 if(giantVinyl) giantVinyl.style.animationPlayState = 'paused';
+                if(tonearm) tonearm.classList.remove('playing');
             }
         }
 
